@@ -5,11 +5,17 @@ use std::env;
 
 pub async fn push_notion(value: Value) -> Result<Value, reqwest::Error> {
     let notion_url = env::var("NOTION_URL").expect("NOTION_URL key not found");
+    let bearer = env::var("BEARER").expect("BEARER not found");
+
+    let bearer = format!("Bearer {bearer}");
 
     let client = Client::new();
 
     let resp: Value = client
         .post(notion_url)
+        .header("Authorization", bearer)
+        .header("Content-Type", "application/json")
+        .header("Notion-Version", "2022-06-28")
         .json(&value)
         .send()
         .await?
@@ -36,7 +42,7 @@ pub fn convert_to_json(contact: &ContactPayload) -> Value {
                 },
               ],
             },
-            "Email": {
+            "email": {
               "email": contact.email,
             },
             "Message": {
@@ -49,11 +55,9 @@ pub fn convert_to_json(contact: &ContactPayload) -> Value {
               ],
             },
             "Contacted": {
-              "select": {
-                "name": "false",
+               "checkbox": false
               },
-            },
-          },
+       },
     });
     payload
 }
