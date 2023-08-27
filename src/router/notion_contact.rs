@@ -6,8 +6,10 @@ use std::env;
 pub async fn push_notion(value: Value) -> Result<Value, reqwest::Error> {
     let notion_url = env::var("NOTION_URL").expect("NOTION_URL key not found");
     let bearer = env::var("BEARER").expect("BEARER not found");
+    dbg!(&bearer);
 
     let bearer = format!("Bearer {bearer}");
+    dbg!(&bearer);
 
     let client = Client::new();
 
@@ -27,6 +29,7 @@ pub async fn push_notion(value: Value) -> Result<Value, reqwest::Error> {
 
 pub fn convert_to_json(contact: &ContactPayload) -> Value {
     let notion_db = env::var("NOTION_DB_ID").expect("NOTION_DB_ID key not found");
+    dbg!(&notion_db);
 
     let payload = json!({
           "parent": {

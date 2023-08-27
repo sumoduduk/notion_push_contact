@@ -4,7 +4,7 @@ use axum::{
     routing::{get, post},
     Router,
 };
-use router::push_contact;
+use router::{api_porto, push_contact};
 use std::net::SocketAddr;
 use tower_http::cors::{Any, CorsLayer};
 
@@ -18,6 +18,7 @@ async fn main() {
     let app = Router::new()
         .route("/", get(hello_rust))
         .route("/contact_form", post(push_contact))
+        .route("/get_porto", get(api_porto))
         .layer(cors);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 8080));

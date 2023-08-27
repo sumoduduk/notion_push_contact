@@ -1,2 +1,5 @@
 /target
 .env
+payloads.json
+results.json
+error.json
