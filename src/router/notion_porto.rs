@@ -28,6 +28,7 @@ pub fn extract_payload(value: &Value) -> Option<Vec<Value>> {
         let title = &properties["Name"]["title"][0]["plain_text"];
         let banner = &properties["Banner"]["files"][0]["name"];
         let description = &properties["Description"]["rich_text"][0]["plain_text"];
+        let id_description = &properties["Iddescription"]["rich_text"][0]["plain_text"];
 
         let stacks_raw = &properties["Stack"]["multi_select"].clone();
         let stacks = stacks_raw.as_array()?;
@@ -45,6 +46,7 @@ pub fn extract_payload(value: &Value) -> Option<Vec<Value>> {
         "title" : title,
         "banner" : banner,
         "description": description,
+        "descriptionId": id_description,
         "stacks" : new_stacks,
         });
         val_vec.push(json_val);
