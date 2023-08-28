@@ -45,10 +45,11 @@ pub fn extract_payload(value: &Value) -> Option<Vec<Value>> {
         "title" : title,
         "banner" : banner,
         "description": description,
-        "stacks" : new_stacks
+        "stacks" : new_stacks,
         });
         val_vec.push(json_val);
     }
+
     dbg!(&val_vec);
 
     Some(val_vec)

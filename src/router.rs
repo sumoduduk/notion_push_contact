@@ -34,22 +34,26 @@ pub async fn api_porto() -> Result<Json<Vec<Value>>, (StatusCode, String)> {
     let bearer = env::var("BEARER").expect("BEARER not found");
 
     let bearer = format!("Bearer {bearer}");
-    dbg!(&bearer);
     let porto_id = env::var("NOTION_PORTO_ID").expect("NOTION_PORTO_ID key not found");
     let notion_url = format!("https://api.notion.com/v1/databases/{}/query", porto_id);
-    dbg!(&porto_id);
-    dbg!(&notion_url);
 
     let payload = json!({
-        "filter": {
-            "property": "Status",
-            "status": {
-                "equals":"Done",
-            },
-        },
-    });
+          "filter": {
+              "property": "Status",
+              "status": {
+                  "equals":"Done",
+              },
+          },
+    "sorts": [
+      {
+        "property": "priority",
+        "direction": "ascending"
+      }
+    ]
+      });
 
     let res = get_porto(&payload, &bearer, &notion_url).await;
+    dbg!(&res);
 
     match res {
         Ok(data) => {
